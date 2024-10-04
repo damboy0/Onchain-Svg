@@ -1,27 +1,42 @@
-require("dotenv").config();
 require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-ignition");
+require("dotenv").config();
 
 module.exports = {
-  solidity: {
-    compilers: [
+  solidity: "0.8.24",
+  networks: {
+    // for testnet
+    "lisk-sepolia": {
+      url: process.env.LISK_RPC_URL,
+      accounts: [process.env.ACCOUNT_PRIVATE_KEY],
+      gasPrice: 1000000000, // 1 Gwei
+    },
+  },
+  etherscan: {
+    // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
+    apiKey: {
+      "lisk-sepolia": "123",
+    },
+    customChains: [
       {
-        version: "0.8.20",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
+        network: "lisk-sepolia",
+        chainId: 4202,
+        urls: {
+          apiURL: "https://sepolia-blockscout.lisk.com/api",
+          browserURL: "https://sepolia-blockscout.lisk.com/",
         },
       },
     ],
   },
-  defaultNetwork: "sepolia",
-  networks: {
-    hardhat: {},
-    sepolia: {
-      url: process.env.SEPOLIA_RPC_URL,
-      accounts: [process.env.PRIVATE_KEY],
-    },
+  sourcify: {
+    enabled: false,
   },
 };
+
+
+
+
+
+
+
+
+
